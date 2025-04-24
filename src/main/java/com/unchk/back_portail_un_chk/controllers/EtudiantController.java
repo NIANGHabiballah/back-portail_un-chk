@@ -55,12 +55,14 @@ public class EtudiantController {
     // Mettre à jour un étudiant existant
     @PutMapping("/etudiants/{id}")
     public ResponseEntity<Map<String, Object>> updateEtudiant(@PathVariable Long id, @RequestBody Etudiant etudiantDetails) {
+        System.out.println("Données reçues pour mise à jour : " + etudiantDetails);
         Optional<Etudiant> etudiantOptional = etudiantRepository.findById(id);
         Map<String, Object> response = new HashMap<>();
         if (etudiantOptional.isPresent()) {
             Etudiant etudiant = etudiantOptional.get();
             etudiant.setNom(etudiantDetails.getNom());
             etudiant.setPrenom(etudiantDetails.getPrenom());
+            // Ajoutez les autres champs ici
             Etudiant updatedEtudiant = etudiantRepository.save(etudiant);
             response.put("message", "Étudiant mis à jour avec succès.");
             response.put("data", updatedEtudiant);
