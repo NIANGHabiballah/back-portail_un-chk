@@ -62,6 +62,13 @@ public class EtudiantController {
             Etudiant etudiant = etudiantOptional.get();
             etudiant.setNom(etudiantDetails.getNom());
             etudiant.setPrenom(etudiantDetails.getPrenom());
+            etudiant.setFormation(etudiantDetails.getFormation());
+            etudiant.setDateNaissance(etudiantDetails.getDateNaissance());
+            etudiant.setPromo(etudiantDetails.getPromo());
+            etudiant.setAnneeDebut(etudiantDetails.getAnneeDebut());
+            etudiant.setAnneeSortie(etudiantDetails.getAnneeSortie());
+            etudiant.setDiplome(etudiantDetails.getDiplome());
+            etudiant.setAutresFormations(etudiantDetails.getAutresFormations());
             // Ajoutez les autres champs ici
             Etudiant updatedEtudiant = etudiantRepository.save(etudiant);
             response.put("message", "Étudiant mis à jour avec succès.");
