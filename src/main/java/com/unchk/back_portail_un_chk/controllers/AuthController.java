@@ -2,6 +2,7 @@ package com.unchk.back_portail_un_chk.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,11 @@ import com.unchk.back_portail_un_chk.repositories.UserRepository;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-        @Autowired
+    @Autowired
     private UserRepository userRepository; // Repository pour interagir avec la base de données
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
-        // Logique pour enregistrer l'utilisateur
-        System.out.println("Données reçues : " + user);
-        System.out.println("Email: " + user.getEmail());
-        System.out.println("Password: " + user.getPassword());
 
         // Vérifiez si l'utilisateur existe déjà
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
@@ -45,26 +42,35 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-     @PostMapping("/forgot-password")
-     public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        // Logique pour gérer la réinitialisation du mot de passe
-        System.out.println("Email: " + email);
+    //  @PostMapping("/forgot-password")
+    //  public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> request) {
+    //     String email = request.get("email");
+    //     // Logique pour gérer la réinitialisation du mot de passe
+    //     System.out.println("Email: " + email);
         
-        // Réponse de succès
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Email de réinitialisation envoyé avec succès");
-        return ResponseEntity.ok(response);
-    }
+    //     // Réponse de succès
+    //     Map<String, String> response = new HashMap<>();
+    //     response.put("message", "Email de réinitialisation envoyé avec succès");
+    //     return ResponseEntity.ok(response);
+    // }
 
      @PostMapping("/login")
      public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
-        // Logique pour authentifier l'utilisateur
-        System.out.println("Email: " + loginRequest.getEmail());
-        System.out.println("Password: " + loginRequest.getPassword());
+        // Rechercher l'utilisateur par email
+        Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
         
+        // Logique pour authentifier l'utilisateur
+        if (user.isPresent() && user.get().getPassword().equals(loginRequest.getPassword())) {
+        
+        // Si l'utilisateur existe et que le mot de passe correspond
         Map<String, String> response = new HashMap<>();
         response.put("message", "Connexion réussie");
         return ResponseEntity.ok(response);
+    } else {
+        // Si l'utilisateur n'existe pas ou que le mot de passe est incorrect
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Email ou mot de passe incorrect.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
+}
 }
