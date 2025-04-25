@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "etudiant") // Remplacez "etudiant" par le nom exact de la table dans la base de données
+@Table(name = "etudiant") // le nom de la table dans la base de données
 public class Etudiant {
 
     @Id
