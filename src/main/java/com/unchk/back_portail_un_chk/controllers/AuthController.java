@@ -42,18 +42,6 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    //  @PostMapping("/forgot-password")
-    //  public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> request) {
-    //     String email = request.get("email");
-    //     // Logique pour gérer la réinitialisation du mot de passe
-    //     System.out.println("Email: " + email);
-        
-    //     // Réponse de succès
-    //     Map<String, String> response = new HashMap<>();
-    //     response.put("message", "Email de réinitialisation envoyé avec succès");
-    //     return ResponseEntity.ok(response);
-    // }
-
      @PostMapping("/login")
      public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
         // Rechercher l'utilisateur par email
